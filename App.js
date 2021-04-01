@@ -30,7 +30,7 @@ const store = createStore((state = defaultStore, action) => {
     newWords.push(newWord);
     return { ...state, words: newWords };
   }
-  if (action.type === "ONTOGGLEWORD") {
+  if (action.type === "TOGGLE_WORD") {
     const newWords = state.words.map(item => {
       if (item.id === action.word.id) {
         return { ...item, isMemorized: !item.isMemorized };
@@ -38,6 +38,18 @@ const store = createStore((state = defaultStore, action) => {
       return item;
     });
     return { ...state, words: newWords };
+  }
+  if (action.type === "REMOVEWORD") {
+    const newWords = state.words.filter(item => {
+      if (item.id === action.word.id) {
+        return false
+      }
+      return true
+    })
+    return { ...state, words: newWords }
+  }
+  if (action.type === "FILTERMODE") {
+    return { ...state, filterMode: action.filterMode }
   }
   return state;
 });

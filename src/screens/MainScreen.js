@@ -22,29 +22,20 @@ class MainScreen extends Component {
         }
     }
     onToggleWord = (word) => {
-        this.props.dispatch({ type: 'ONTOGGLEWORD', word });
+        this.props.dispatch({ type: 'TOGGLE_WORD', word });
     }
     onRemoveWord = (word) => {
         Alert.alert(
             "Thông báo",
             "Bạn có chắc muốn xóa ?",
             [
-
                 {
                     text: 'Hủy',
                     style: 'cancel'
                 },
                 {
                     text: 'Xóa',
-                    onPress: () => {
-                        const newWords = this.state.words.filter(item => {
-                            if (item.id == word.id) {
-                                return false;
-                            }
-                            return true;
-                        });
-                        this.setState({ words: newWords })
-                    }
+                    onPress: () => this.props.dispatch({ type: "REMOVEWORD", word })
                 }
             ]
         )
@@ -57,7 +48,7 @@ class MainScreen extends Component {
 
     }
     onSetFilterMode = (filterMode) => {
-        this.setState({ filterMode });
+        this.props.dispatch({ type: "FILTERMODE", filterMode })
     }
     render() {
         return (
@@ -73,13 +64,16 @@ class MainScreen extends Component {
                     shouldShowForm={this.props.shouldShowForm}
                 />
                 <Filter
+                    onSetFilterMode={this.onSetFilterMode}
                     filterMode={this.props.filterMode}
                 />
                 {/* <ScrollView>
                     {this.state.words.map(word => this.renderItemWords(word))}
                 </ScrollView> */}
                 <Word
+
                     onToggleWord={this.onToggleWord}
+                    onRemoveWord={this.onRemoveWord}
                     data={this.props.words}
                     filterMode={this.props.filterMode}
                 />
