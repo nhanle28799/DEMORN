@@ -9,12 +9,6 @@ import { connect, Provider } from 'react-redux';
 import ItemofWord from './src/components/ItemofWord'
 import { func } from 'prop-types'
 import store from './src/redux/store'
-
-
-
-
-
-
 // console.log(store.getState());
 // //Thay đổi store bằng cách gửi action
 // store.dispatch({ type: 'INCREASE' });

@@ -5,11 +5,12 @@ import Word from '../components/Word';
 import Filter from '../components/Filter';
 import Form from '../components/Form';
 import { connect } from 'react-redux';
+import * as actionCreators from '../redux/reducers/actions/actionCreators'
 class MainScreen extends Component {
 
 
     onToggleForm = () => {
-        this.props.dispatch({ type: 'TOGGLEFORM' });
+        this.props.toggleForm()
     }
     styleButtonMemorized = (styles, word) => {
         return {
@@ -22,7 +23,7 @@ class MainScreen extends Component {
         }
     }
     onToggleWord = (word) => {
-        this.props.dispatch({ type: 'TOGGLE_WORD', word });
+        this.props.toggleWord(word)
     }
     onRemoveWord = (word) => {
         Alert.alert(
@@ -35,7 +36,7 @@ class MainScreen extends Component {
                 },
                 {
                     text: 'Xóa',
-                    onPress: () => this.props.dispatch({ type: "REMOVEWORD", word })
+                    onPress: () => this.props.removeWord(word)
                 }
             ]
         )
@@ -43,12 +44,12 @@ class MainScreen extends Component {
     }
 
     onAddWord = (newWord, callback) => {
-        this.props.dispatch({ type: "ADDWORD", newWord })
+        this.props.addWord(newWord)
         callback();
 
     }
     onSetFilterMode = (filterMode) => {
-        this.props.dispatch({ type: "FILTERMODE", filterMode })
+        this.props.setFilterMode(filterMode)
     }
     render() {
         return (
@@ -89,4 +90,4 @@ const mapStateToProps = (state) => {
     };
 };
 
-export default connect(mapStateToProps)(MainScreen);
+export default connect(mapStateToProps, actionCreators)(MainScreen);
