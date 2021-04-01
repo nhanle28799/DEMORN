@@ -17,12 +17,43 @@ const defaultWord = [
   { id: 5, en: 'Five', vn: 'Năm', isMemorized: true },
 ];
 function wordsReducer(state = defaultWord, action) {
+  if (action.type === "ADDWORD") {
+    const newWord = action.newWord;
+    const newWords = state.map(word => ({ ...word }));
+    newWords.push(newWord);
+    return newWords
+  }
+  if (action.type === "TOGGLE_WORD") {
+    const newWords = state.map(item => {
+      if (item.id === action.word.id) {
+        return { ...item, isMemorized: !item.isMemorized };
+      }
+      return item;
+    });
+    return newWords
+  }
+  if (action.type === "REMOVEWORD") {
+    const newWords = state.filter(item => {
+      if (item.id === action.word.id) {
+        return false
+      }
+      return true
+    })
+    return newWords
+  }
   return state;
 }
 function shouldShowFormReducer(state = false, action) {
+  if (action.type === "TOGGLEFORM") {
+    return !state
+  }
   return state;
 }
 function filterModeReducer(state = "Show_All", action) {
+
+  if (action.type === "FILTERMODE") {
+    return action.filterMode
+  }
   return state;
 }
 const rootReducer = combineReducers({
@@ -52,33 +83,7 @@ export default class App extends Component {
   }
 }
 
-// if (action.type === "TOGGLEFORM") {
-//   return { ...state, shouldShowForm: !state.shouldShowForm };
-// }
-// if (action.type === "ADDWORD") {
-//   const newWord = action.newWord;
-//   const newWords = state.words.map(word => ({ ...word }));
-//   newWords.push(newWord);
-//   return { ...state, words: newWords };
-// }
-// if (action.type === "TOGGLE_WORD") {
-//   const newWords = state.words.map(item => {
-//     if (item.id === action.word.id) {
-//       return { ...item, isMemorized: !item.isMemorized };
-//     }
-//     return item;
-//   });
-//   return { ...state, words: newWords };
-// }
-// if (action.type === "REMOVEWORD") {
-//   const newWords = state.words.filter(item => {
-//     if (item.id === action.word.id) {
-//       return false
-//     }
-//     return true
-//   })
-//   return { ...state, words: newWords }
-// }
-// if (action.type === "FILTERMODE") {
-//   return { ...state, filterMode: action.filterMode }
-// }
+
+
+
+
