@@ -11,6 +11,8 @@
   },
   "dependencies": {
     "@react-native-picker/picker": "^1.12.0",
+    "@reduxjs/toolkit": "^1.5.1",
+    "axios": "^0.21.1",
     "prop-types": "^15.7.2",
     "react": "17.0.1",
     "react-native": "0.64.0",

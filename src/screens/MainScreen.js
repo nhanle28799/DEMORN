@@ -5,25 +5,26 @@ import Word from '../components/Word';
 import Filter from '../components/Filter';
 import Form from '../components/Form';
 import { connect } from 'react-redux';
-import * as actionCreators from '../redux/reducers/actions/actionCreators'
+import { fetchWords, removeWord, toggleWord } from '../redux/slices/wordSlice'
+import { addWord } from '../redux/slices/wordSlice';
+import { toggleForm } from '../redux/slices/shouldShowFormSlice';
+import { setfilterMode } from '../redux/slices/filterModeSlice';
+import axios from 'axios';
 class MainScreen extends Component {
-
-
+    componentDidMount() {
+        this.props.dispatch(fetchWords());
+    }
     onToggleForm = () => {
-        this.props.toggleForm()
+        this.props.dispatch(toggleForm())
     }
     styleButtonMemorized = (styles, word) => {
         return {
-
-
             ...styles.buttonMemorize,
             backgroundColor: word.isMemorized ? 'green' : 'red'
-
-
         }
     }
     onToggleWord = (word) => {
-        this.props.toggleWord(word)
+        this.props.dispatch(toggleWord(word));
     }
     onRemoveWord = (word) => {
         Alert.alert(
@@ -36,29 +37,24 @@ class MainScreen extends Component {
                 },
                 {
                     text: 'Xóa',
-                    onPress: () => this.props.removeWord(word)
+                    onPress: () => this.props.dispatch(removeWord(word))
                 }
             ]
         )
-
     }
-
     onAddWord = (newWord, callback) => {
-        this.props.addWord(newWord)
+        this.props.dispatch(addWord(newWord))
         callback();
-
     }
     onSetFilterMode = (filterMode) => {
-        this.props.setFilterMode(filterMode)
+        this.props.dispatch(setfilterMode((filterMode)))
     }
     render() {
         return (
-
             <View style={{
                 flex: 1,
                 flexDirection: 'column',
             }}>
-
                 <Form
                     onAddWord={this.onAddWord}
                     onToggleForm={this.onToggleForm}
@@ -72,7 +68,6 @@ class MainScreen extends Component {
                     {this.state.words.map(word => this.renderItemWords(word))}
                 </ScrollView> */}
                 <Word
-
                     onToggleWord={this.onToggleWord}
                     onRemoveWord={this.onRemoveWord}
                     data={this.props.words}
@@ -89,5 +84,4 @@ const mapStateToProps = (state) => {
         shouldShowForm: state.shouldShowForm,
     };
 };
-
-export default connect(mapStateToProps, actionCreators)(MainScreen);
+export default connect(mapStateToProps)(MainScreen);
